@@ -3,7 +3,10 @@
  * @return {number[]} 
  */
 function getArray(cnt = 300000) {
-  const ret = new Array(cnt);
+  // const ret = new Array(cnt);
+  const sab = new SharedArrayBuffer(Uint32Array.BYTES_PER_ELEMENT * cnt);
+  const ret = new Uint32Array(sab);
+
   for(let ind = 0; ind < ret.length; ind++) {
     ret[ind] = ind+1;
   }
@@ -17,6 +20,8 @@ function getArray(cnt = 300000) {
  * @return {number} 
  */
 function count(arr, from = 0, to = undefined) {
+  performance.mark('count.start');
+
   if (to === undefined) {
     to = arr.length - 1;
   } else {
@@ -30,6 +35,9 @@ function count(arr, from = 0, to = undefined) {
       cnt++;
     }
   }
+
+  performance.mark('count.end');
+  performance.measure('count', 'count.start', 'count.end');
 
   return cnt;
 };
