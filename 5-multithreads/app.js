@@ -1,9 +1,9 @@
+const { cpus } = require('node:os');
 const { performance, PerformanceObserver } = require('node:perf_hooks');
 const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads');
 
 const { getArray, count } = require('./helper');
 
-const threadsCnt = process.argv[2] || 4;
 const arraySize = 300 * 1000;
 
 if (isMainThread) {
@@ -16,9 +16,9 @@ if (isMainThread) {
   performanceObserver.observe({ entryTypes: ['measure', 'function']});
 
   const arr = getArray(arraySize);
-  
   console.log(count(arr));
   
+  const threadsCnt = process.argv[2] || cpus().length;
   const perfThreaded = performance.timerify(countThreaded);
   perfThreaded(arr, threadsCnt).then(res => {
     console.log(res);
