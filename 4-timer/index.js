@@ -25,11 +25,9 @@ function parseTimeFromString(strTime) {
   }
 
   // [hh, mm, ss] => [ss, mm, hh] => (ss*60^0 + mm*60^1 + hh*60^2) * 1000
-  const time = parts.reverse().reduce((acc, part, index) => {
+  return parts.reverse().reduce((acc, part, index) => {
     return acc + parseInt(part) * Math.pow(60, index) * 1000;
   }, 0);
-
-  return time;
 }
 
 /**
