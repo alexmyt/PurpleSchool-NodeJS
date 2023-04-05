@@ -21,4 +21,18 @@ if (!operationNames.includes(operationName)) {
   process.exit(1);
 }
 
-calcEmitter.emit(operationName, +firstNum, +secondNum);
+const operand1 = isFiniteNumber(firstNum) && Number(firstNum);
+const operand2 = isFiniteNumber(secondNum) && Number(secondNum);
+
+if (operand1 === false || operand2 === false) {
+  console.error('Use: node index.js <number1> <number2> <operation>');
+  process.exit(1);
+}
+
+calcEmitter.emit(operationName, operand1, operand2);
+
+function isFiniteNumber(value) {
+  if (typeof(value) === 'number') return Number.isFinite(value);
+  if (typeof(value) === 'string') return (value.trim() !== '' && Number.isFinite(Number(value)))
+  return false
+}
