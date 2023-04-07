@@ -1,0 +1,12 @@
+{
+  "ERROR": "FEHLER",
+  "SUCCESS": "ERFOLG",
+  "HELP": "HILFE",
+  "errorTokenNotDefined": "Token nicht definiert",
+  "errorTokenIsInvalid": "Ungültiges Token",
+  "errorCityNonFound": "Stadt nicht gefunden: {{city}}",
+  "weatherLocation" : "Wetter in {{city}}",
+  "weatherTemperature": "Temperatur: {{temp}}, fühlt sich an wie {{feels_like}}",
+  "weatherHumidity": "Luftfeuchtigkeit: {{humidity}}%",
+  "weatherWind": "Windgeschwindigkeit: {{wind_speed}} m/s"
+}

@@ -1,73 +1,22 @@
 #!/usr/bin/env node
 import { AxiosError } from 'axios';
-import { getArgs } from './helpers/args.js';
 import { getWeather } from './services/api.service.js';
-import { printError, printHelp, printSuccess } from './services/log.service.js';
-import { APP_DICTIONARY, getKeyValue, saveKeyValue } from './services/storage.service.js';
-import { printWeather } from './services/weather.service.js';
+import { parseArgs } from './services/args.service.js';
+import { APP_DICTIONARY, appConfig } from './services/config.service.js';
+import i18n from './services/locale.service.js';
+import { printError, printWeather } from './services/console.service.js';
 
-const saveToken = async (token) => {
-  if (Array.isArray(token)) {
-    printError('Допустимо передавать только один токен');
-    return;
-  }
+let t;
 
-  if (typeof(token) !== 'string' || !token.length) {
-    printError('Токен не передан');
-    return;
-  }
-
+const getForecast = async (city, token, lang = 'ru') => {
   try {
-    await saveKeyValue(APP_DICTIONARY.token, token);
-    printSuccess('Токен сохранен');
-  } catch (error) {
-    printError(error.message);
-  }
-}
-
-const saveCity = async (city) => {
-  if (typeof(city) !== 'string' && !Array.isArray(city) || !city.length) {
-    printError('Город не передан');
-    return;
-  }
-
-  try {
-    await saveKeyValue(APP_DICTIONARY.city, city);
-    printSuccess('Город сохранен');
-  } catch (error) {
-    printError(error.message);
-  }
-}
-
-const saveLang = async (lang) => {
-  if (Array.isArray(lang)) {
-    printError('Допустимо передавать только один язык');
-    return;
-  }
-
-  if (typeof(lang) !== 'string' || !lang.length) {
-    printError('Язык не передан');
-    return;
-  }
-
-  try {
-    await saveKeyValue(APP_DICTIONARY.lang, lang);
-    printSuccess('Язык сохранен');
-  } catch (error) {
-    printError(error.message);
-  }
-}
-
-const getForecast = async (city, lang = 'ru') => {
-  try {
-    const res = await getWeather(city, lang);
-    printWeather(res, lang);
+    return await getWeather(city, token, lang);
   } catch (error) {
     if (error instanceof AxiosError) {
       if (error.response?.status === 404) {
-        printError(`Неправильно указан город: ${city}`);
+        printError(t('errorCityNonFound', {city}));
       } else if (error.response?.status === 401) {
-        printError('Неправильно указан токен');
+        printError(t('errorTokenIsInvalid'));
       }
       printError(error.response?.data.message);
     } else {
@@ -76,35 +25,28 @@ const getForecast = async (city, lang = 'ru') => {
   }
 }
 
-const initCLI = async () => {
-  const args = getArgs(process.argv);
-
-  if (args.h) {
-    return printHelp();
-  }
-
-  if (args.l) {
-    saveLang(args.l);
-  }
-
-  if (args.t) {
-    saveToken(args.t);
-  }
-
-  if (args.s) {
-    saveCity(args.s)
-  }
-
-  const lang = process.env.WEATHER_LANG ?? args.l ?? await getKeyValue(APP_DICTIONARY.lang) ?? 'ru';
+const initCli = async () => {
+  await parseArgs();
   
-  const cities = process.env.CITY ?? args.s ?? await getKeyValue(APP_DICTIONARY.city);
-  if (Array.isArray(cities)) {
-    for(const city of cities) {
-      getForecast(city, lang);
-    }
-  } else {
-    getForecast(cities, lang);
+  const lang = appConfig.getKey(APP_DICTIONARY.lang);
+  t = i18n(lang);
+
+  const token = appConfig.getKey(APP_DICTIONARY.token);
+  if (!token){
+    printError(t('errorTokenNotDefined'));
+    return;
   }
+
+  const cities = appConfig.getKey(APP_DICTIONARY.city);
+  if (!cities) {
+    printError(t('errorCityNotDefined'));
+    return;
+  }
+
+  for(const city of cities) {
+    const data = await getForecast(city, token, lang);
+    printWeather(data, lang);
+  }  
 }
 
-initCLI();
+initCli();
