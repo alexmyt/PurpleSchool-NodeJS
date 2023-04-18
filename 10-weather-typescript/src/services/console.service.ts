@@ -4,6 +4,29 @@ import { t } from 'i18next';
 
 import { openWeatherData } from './interfaces.js';
 
+// Two different sets of icons for day and night
+const iconsByCode: Record<string, string> = {
+  '01d': '☀️',
+  '02d': '🌤️',
+  '03d': '☁️',
+  '04d': '☁️',
+  '09d': '🌧️',
+  '10d': '🌦️',
+  '11d': '🌩️',
+  '13d': '❄️',
+  '50d': '🌫️',
+
+  '01n': '🌙',
+  '02n': '🌑',
+  '03n': '☁️',
+  '04n': '☁️',
+  '09n': '🌧️',
+  '10n': '🌦️',
+  '11n': '🌩️',
+  '13n': '❄️',
+  '50n': '🌫️',
+}
+
 const printError = (error?: string | null) => {
   console.error(chalk.bgRed(' ERROR '), error);
 }
@@ -20,37 +43,12 @@ const printHelp = (lng?: string) => {
 const printWeather = (data: openWeatherData, lng = 'ru') => {
   console.info(
     dedent`${chalk.bold.underline.greenBright(t('weatherLocation', {lng, city: data.name}))}
-    ${getWeatherIcon(data.weather[0].icon)}  ${data.weather[0].description}
+    ${iconsByCode[data.weather[0].icon]}  ${data.weather[0].description}
     ${t('weatherTemperature', {lng, ...data.main})}
     ${t('weatherHumidity', {lng, humidity: data.main.humidity})}
     ${t('weatherWind', {lng, wind_speed: data.wind.speed})}
 
     `);
-}
-
-const getWeatherIcon = (icon: string) => {
-  switch (icon.slice(0, -1)) {
-    case '01':
-      return '☀️';
-    case '02':
-      return '🌤️';
-    case '03':
-      return '☁️';
-    case '04':
-      return '☁️';
-    case '09':
-      return '🌧️';
-    case '10':
-      return '🌦️';
-    case '11':
-      return '🌩️';
-    case '13':
-      return '❄️';
-    case '50':
-      return '🌫️';
-    default:
-      return '';
-  }
 }
 
 export { printError, printSuccess, printHelp, printWeather };
