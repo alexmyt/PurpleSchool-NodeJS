@@ -5,6 +5,7 @@
   "type": "module",
   "main": "weather.js",
   "scripts": {
+    "start": "node ./weather",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
