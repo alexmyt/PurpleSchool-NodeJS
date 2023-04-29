@@ -1,0 +1,13 @@
+{
+  "ERROR": "ОШИБКА",
+  "SUCCESS": "УСПЕХ",
+  "HELP": "ПОМОЩЬ",
+  "errorTokenNotDefined": "Токен не задан",
+  "errorTokenIsInvalid": "Неправильно указан токен",
+  "errorCityNonFound": "Город не найден: {{city}}",
+  "weatherLocation" : "Погода в {{city}}",
+  "weatherTemperature": "Температура: {{temp}}, ощущается как {{feels_like}}",
+  "weatherHumidity": "Влажность: {{humidity}}%",
+  "weatherWind": "Скорость ветра: {{wind_speed}} м/с",
+  "helpText": "Без параметров - вывод погоды\n-h для вывода справки\n-c [CITY] для установки города\n-t [API_KEY] для установки токена\n-l [ru|en|de] для установки языка\n-f [file name] задать имя файла конфигурации\n-s сохранить изменения в файл"
+}

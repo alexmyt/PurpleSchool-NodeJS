@@ -1,0 +1,14 @@
+{
+  "ERROR": "ERROR",
+  "SUCCESS": "SUCCESS",
+  "HELP": "HELP",
+  "errorTokenNotDefined": "Token not defined",
+  "errorCityNotDefined": "City not defined",
+  "errorTokenIsInvalid": "Invalid token",
+  "errorCityNonFound": "City not found: {{city}}",
+  "weatherLocation" : "Weather in {{city}}",
+  "weatherTemperature": "Temperature: {{temp}}, feels like {{feels_like}}",
+  "weatherHumidity": "Humidity: {{humidity}}%",
+  "weatherWind": "Wind speed: {{wind_speed}} m/s",
+  "helpText": "No parameters - display weather\n-h to display help\n-c [CITY] to set the city\n-t [API_KEY] to set the token\n-l [ru|en|de] to set the language\n-f [file name] to set config file\n-s to save config to file"
+}
