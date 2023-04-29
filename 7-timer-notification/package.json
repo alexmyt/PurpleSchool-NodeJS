@@ -1,0 +1,23 @@
+{
+  "name": "7-timer-notifications",
+  "version": "1.0.0",
+  "description": "Homework for step 7 of NodeJS course by PurpleSchool",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexmyt/PurpleSchool-NodeJS.git"
+  },
+  "keywords": ["timer", "node-notifier"],
+  "author": "Alexey Mytsykov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexmyt/PurpleSchool-NodeJS/issues"
+  },
+  "homepage": "https://github.com/alexmyt/PurpleSchool-NodeJS#readme",
+  "dependencies": {
+    "node-notifier": "^10.0.1"
+  }
+}
